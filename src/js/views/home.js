@@ -4,14 +4,13 @@ import "../../styles/home.css";
 export const Home = () => {
 
 	const [ pokemones, setPokemones ] = useState([])
-	//parte logica 
-	useEffect(async ()=>{ // solo se ejecuta cuando es montado
+	
+	useEffect(async ()=>{
 		try{
 			let auxArray = []
 			for(let i = 1; i < 20; i++){
 				auxArray.push( await fetchPokemon(i) )
 			}
-			//setPokemones([ ...pokemones, poki])
 			setPokemones([ ...auxArray])
 		}catch(err){
 			console.log('Ah ocurrido un error', err)
@@ -28,15 +27,17 @@ export const Home = () => {
 	return (
 		<div className="text-center mt-5">
 			<h1>Pokemon API</h1>
-			<div className="container-fluid flex-wrap">
+			<div className="flex-wrap d-flex">
 			{ pokemones && pokemones.length > 0 &&	pokemones.map(
 				(pokemon) => 
-				<div key={pokemon.name} className="card">
+				<div key={pokemon.name} className="col-3 p-3">
+					<div className="card">
 					<div className="card-body">
-						<h3>
+						<h5>
 							{ pokemon.name }
-						</h3>
+						</h5>
 						<img src={pokemon.sprites.front_default} alt={pokemon.name}/>
+					</div>
 					</div>
 				</div>)
 			}
