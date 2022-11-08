@@ -1,26 +1,48 @@
 import React, { useState, useEffect, useContext } from "react";
-import PropTypes from "prop-types";
 import { Link, useParams } from "react-router-dom";
-import { Context } from "../store/appContext";
 
 export const Single = props => {
-	const { store, actions } = useContext(Context);
+
+	const [pokemon, setPokemon] = useState()
+
+	useEffect(async ()=>{
+
+		const resp = await fetch(`https://pokeapi.co/api/v2/pokemon/${params.theid}`)
+		const data = await resp.json()
+		setPokemon(data)
+	},[])
+
 	const params = useParams();
+
 	return (
 		<div className="jumbotron">
-			<h1 className="display-4">This will show the demo element: {store.demo[params.theid].title}</h1>
-
+			<h1>Detalle del Pokemon {pokemon && pokemon.name}! </h1>
+			{	pokemon &&
+				<img src={pokemon.sprites.front_default} alt={pokemon.name}/>
+			}
 			<hr className="my-4" />
-
+				<h3>Types 🧨</h3>
+				<ul>
+					{
+						pokemon && pokemon.types.map(
+						(type)=>
+							<li key={type.type.name}>
+								{type.type.name}
+							</li>
+						)
+					}
+				</ul>
+				<h3>Moves 🎀</h3>
+				<ol>
+					{pokemon && pokemon.moves.map((skill, index)=>
+						<li key={index}>
+							{skill.move.name}
+						</li>
+					)}
+				</ol>
 			<Link to="/">
-				<span className="btn btn-primary btn-lg" href="#" role="button">
-					Back home
-				</span>
+
 			</Link>
 		</div>
 	);
-};
-
-Single.propTypes = {
-	match: PropTypes.object
 };

@@ -11,8 +11,16 @@ const getState = ({ getStore, getActions, setStore }) => {
 					title: "SECOND",
 					background: "white",
 					initial: "white"
+				},
+				{
+					title: "NO JUEGUEN LOL",
+					background: "green",
+					initial: "white"
 				}
-			]
+			],
+
+			favorites : [ ]
+
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
@@ -37,7 +45,19 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 				//reset the global store
 				setStore({ demo: demo });
+			},
+
+			addFavorite: (pokemon) => {
+				const store = getStore();
+				if( !store.favorites.includes(pokemon) )
+				setStore({ favorites: [ ...store.favorites, pokemon  ]})
+			},
+
+			deleteFavorite: (pokemon) => {
+				const store = getStore();
+				setStore({ favorites: [ ...store.favorites.filter( x=> x != pokemon)  ]})
 			}
+
 		}
 	};
 };
